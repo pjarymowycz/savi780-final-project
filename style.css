@@ -1,0 +1,316 @@
+/* CSS files add styling rules to your content */
+
+body {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  margin: 0;
+  text-align: center;
+  background: white;
+  height: 100%;
+}
+
+html {
+  height: 100%;
+}
+
+#map1 {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  float: left;
+  width: 100vw;
+  background-color: white;
+}
+
+h1 {
+  font-size: 2vw;
+  text-shadow: 1px 1px 1px black;
+  margin: 0;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+h2 {
+  font-size: 2vw;
+  text-shadow: 1px 1px 1px black;
+  margin: 0;
+  margin-top: 10vh;
+  margin-bottom: 5px;
+  height: 4vw;
+  width: 100%;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.docText {
+  width: 65%;
+  height: 95vh;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+  overflow: auto;
+}
+
+.about {
+  font-size: larger;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.legendBox {
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+  border: 2px solid black;
+  background-color: silver;
+  opacity: 0.8;
+}
+
+.link {
+  color: black;
+  text-decoration: underline black dashed;
+}
+
+.link:hover {
+  color: black;
+  text-decoration: underline;
+}
+
+.legend1 {
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: rgba(128,128,128,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  line-height: 18px;
+  text-align: left;
+  color: black;
+}
+
+.legendScale1 {
+  display: inline-block;
+  width: 300px;
+  height: 17px;
+  margin-bottom: -3px;
+  background-image: linear-gradient(to right, white, red);
+}
+
+.legend2 {
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: rgba(128,128,128,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  line-height: 18px;
+  text-align: left;
+  color: black;
+}
+
+.legendScale2 {
+  display: inline-block;
+  width: 300px;
+  height: 17px;
+  margin-bottom: -3px;
+  background-image: linear-gradient(to right, white, green);
+}
+
+.legend3 {
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: rgba(128,128,128,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  line-height: 18px;
+  text-align: left;
+  color: black;
+}
+
+.legendScale3 {
+  display: inline-block;
+  width: 300px;
+  height: 17px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: -3px;
+  background-image: linear-gradient(to right, white, blue);
+}
+
+.legend4 {
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: rgba(128,128,128,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  line-height: 18px;
+  text-align: left;
+  color: black;
+}
+
+.legendScale4 {
+  display: inline-block;
+  width: 300px;
+  height: 17px;
+  margin-bottom: -3px;
+  background-image: linear-gradient(to right, white, black);
+}
+
+.mapTitle {
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: white;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  line-height: 18px;
+  color: #555;
+}
+
+.leaflet-popup-content {
+  text-align: left;
+}
+
+.leaflet-popup-content-wrapper {
+  background: rgba(192, 192, 192, 0.8);
+}
+
+.leaflet-popup-tip {
+  background: rgba(192, 192, 192, 0.8);
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: rgba(254, 254, 254, 0.8);
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.pTitle {
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.pData {
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  font-style: italic;
+}
+
+.pDiv {
+  overflow: auto;
+  height: 150px;
+}
+
+.overlay {
+  /* Adapted from w3schools.com Overlay Effect How TO tutorial:
+  https://www.w3schools.com/howto/howto_css_overlay.asp */
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(254,254,254,0.8); /* White background with opacity */
+  z-index: 5005; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
+
+.overlay .docText {
+  margin-top: 0;
+  font-size: 1vw;
+}
+
+.overlay .docText h1 {
+  height: 4vw;
+  margin-top: 4vh;
+}
+
+.btn {
+  /* Adapted from w3schools.com Modal Boxes How TO tutorial:
+  https://www.w3schools.com/howto/howto_css_modals.asp */
+  font-size: medium;
+  font-weight: bold;
+  border: none; /* Remove borders */
+  color: black; /* Add a text color */
+  padding: 2px 4px; /* Add some padding */
+  cursor: pointer; /* Add a pointer cursor on mouse-over */
+  background-color: LightGray;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  box-shadow: 4px 4px 10px black;
+}
+
+.btn:hover {
+  background-color: DarkGray;
+  box-shadow: 2px 2px 5px black;
+}
+
+fieldset {
+  margin-top: 20vh;
+  margin-bottom: 3vh;
+}
+
+select {
+  font-size: 1vw;
+}
+
+.glitchTag {
+  position: fixed;
+  font-size: 11px;
+  bottom: 12px;
+  right: 60px;
+  z-index: 1000;
+}
+
+#drugSelect {
+  display: inline-block;
+  margin-bottom: 2vh;
+  margin-left: 5%;
+}
+
+#demogSelect {
+  margin-left: 5%;
+}
+
+#dmSelect {
+  width: 80%;
+}
+
+.leaflet-container{
+  text-align: left;
+}
+
+.chkBoxes{
+  position: fixed;
+  width: 20vw;
+  top: 10px;
+  left: 10px;
+  z-index: 5001;
+  padding: 10px;
+  background: rgba(128,128,128,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  text-align: left;
+  font-size: 1vw;
+}
+
+#aboutBtn{
+  position: fixed;
+  bottom: 45px;
+  right: 15px;
+  z-index: 5001;
+}
+
+#sourcesBtn{
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  z-index: 5001;
+}

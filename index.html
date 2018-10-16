@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>NYC Drug Enforcement Bias</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Load Leaflet CSS -->
+    <link href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" rel="stylesheet">
+
+    <!-- Load Geocoder Control stylesheet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+    <!-- import the webpage's stylesheet -->
+    <link href="./style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <!-- Buttons to open additional information overlays -->
+    <div><button class="btn" id="aboutBtn">About</button></div>
+    <div><button class="btn" id="sourcesBtn">Sources</button></div>
+
+
+    <!-- Checkbox field for layer selection -->
+    <!-- <fieldset class="chkBoxes"> -->
+    <div class="chkBoxes">
+
+      <h1>
+        Racial Bias in NYC:<br />Drug Enforcement
+      </h1>
+
+      <!-- Page Information -->
+      <p>
+        Racial bias in policing is well documented in the US, but not always visible.
+        This map compares modeled illicit drug-use rates in NYC with NYPD drug crime conviction data
+        and shows how racial bias clouds the issue.
+      </p>
+      <p>
+        Use the following map to look-up drug enforcement, drug use, and racial demographic data for NYPD precincts.
+      </p>
+      <p>
+        Click on a precinct for more information.
+      </p>
+
+
+      <strong>Select Visible Layers</strong></br>
+
+      <div>
+        <!-- Demographics checkbox -->
+        <input type="checkbox" id="demographics" checked>
+        <label for="demographics">Racial Demographics</label>
+      </div>
+      <div id="demogSelect">
+        <select class="demSelect" id="dmSelect">
+          <option value="NHL_W">White alone</option>
+          <option value="NHL_BAA">Black or African American alone</option>
+          <option value="HL_Tot">Hispanic or Latino</option>
+          <option value="NHL_AI">American Indian and Alaska Native alone</option>
+          <option value="NHL_A">Asian alone</option>
+          <option value="NHL_NH">Native Hawaiian and Other Pacific Islander alone</option>
+          <option value="NHL_Othr">Some other race alone</option>
+          <option value="NHL_2X">Two or more races</option>
+        </select>
+      </div>
+
+      <div></br></div>
+
+      <div>
+        <!-- Demographics Only layer checkbox -->
+        <input type="radio" name="layerSelector" id="noneSelect" checked>
+        <label for="noneSelect">Demographics Only</label>
+      </div>
+
+      <div>
+        <!-- NYPD Precincts layer checkbox -->
+        <input type="radio" name="layerSelector" id="drugs" unchecked>
+        <label for="drugs">Drug Offenses:</label>
+        <select class="offSelect" id="ofSelect">
+          <option value="F_">Felony</option>
+          <option value="M_">Misdemeanor</option>
+        </select>
+      </div>
+
+      <div>
+        <!-- Estimated Drug Use layer checkbox -->
+        <input type="radio" name="layerSelector" id="drugUse" unchecked>
+        <label for="drugUse">Estimated Drug Use</label>
+      </div>
+
+      <div>
+        <!-- Other Factors layer checkbox -->
+        <input type="radio" name="layerSelector" id="otherSelect" unchecked>
+        <label for="otherSelect">Other Factors</label>
+        <select class="othrSelect" id="othSelect">
+          <option value="Tot_311Cmp">311 Complaints</option>
+          <option value="SQF_2014">Stop & Frisk</option>
+          <option value="prec_pvty">Poverty Level</option>
+        </select>
+        <div>(CAUTION! Other factors may be unreliable indicators.)</div>
+      </div>
+
+    <!-- </fieldset> -->
+    </div>
+
+    <!-- Create block for map -->
+    <div class="mapClass" id="map1"></div>
+
+    <!-- Load Leaflet library -->
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+
+    <!-- Load Geocoder Control library -->
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <!-- Load Promises polyfill -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
+
+    <!-- Load Fetch polyfill -->
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.4/fetch.js"></script>
+
+    <!-- import the webpage's javascript file -->
+    <script src="./script.js"></script>
+
+    <!-- Create block for "About" information overlay -->
+    <div id="aboutOver" class="overlay" onclick="aboutOverOff()">(Click Anywhere to Return to Map)
+      <div class="docText">
+
+        <!-- Overlay Header -->
+        <h1>
+          About this map:
+        </h1>
+
+        <!-- Overlay Text -->
+          Although Drug use is relatively equal across all racial demographics, arrests and convictions
+          for drug related felonies and misdemeanors fall disproportionately on black and hispanic populations.
+          The NYPD often claims that the racial disparity in policing, and Quality of Life (Broken Windows) policing
+          in particular, is due to factors other than racial bias. However, these factors are often misleading and
+          cannot fully explain patterns visible in the data, especially in the disparity between drug use and convictions.
+        <p>
+          This map visually portrays drug enforcement by racial demographics in NYC. It was created from
+          American Community Survey and historic NYPD crime data, as well as census tract and police precinct
+          boundary data from NYC Open Data. All data analysis was performed in QGIS 3.0.2 and Microsoft Excel.
+          Some minor cleanup was performed on the precinct boundary layer due to invalid geometries in the original data.
+        </p>
+        <p>
+          To create the map, 2014 ACS 5-year population and demographic data was incorporated into NYC census tracts.
+          The tracts were clipped by the police precinct boundaries and merged back into a single layer.
+          A new layer of precinct boundaries with a very small (~0.001in) negative buffer was used to join the
+          police precinct number attribute to the merged clipped census tract layer by location. Area attributes
+          were added to each clipped census tract.
+        </p>
+        <p>
+          The census tract attribute table was then exported to Excel. Here the original population and demogrphic data
+          was recalculated as precentages of the total census tract population. A pivot table was used to compute the total
+          area of census tract clips in each precinct, and demographic pecentages were normalized by the size of each clipped
+          census tract to the total tract size in each precinct. Expected drug use rates for demographics were calculated based
+          on the 2014 National Survey on Drug Use and Health: Detailed Tables (Table 1.19B). Relevant data was exported as a CSV
+          file and imported into QGIS. Here it was joined to the police precinct boundaries, along with the NYPD historic drug
+          crime data.
+        </p>
+        <p>
+          Several other datasets were also included based on the NYPD's 2015 report "Broken Windows and Quality-of-Life Policing
+          in New York City". Issues immediately arose with incomplete data availability through open sources. Demographic information
+          was often absent from location-based datasets. 911 data seems generally unavailable without a FOIL request. Location-based
+          (Community District Level) poverty data from the ACS corrected for NYC is disconnected from racial indicators. However, this
+          difficulty obtaining data itself can lead to misleading reports or misinterpretations in policy-making and law-enforcement.
+        </p>
+        <p>
+          Ultimately, the data used for the "Other Factors" selection can be used to view overall trends throughout NYC, but <strong>may not
+          accurately reflect reality</strong> when a demographic filter is applied, since this filter assumes equal distribution of the underlying
+          data over all demographics.
+        </p>
+        <p>
+          311 Complaints data comes from geolocated 311 complaints for noise, drinking, and disorderly youth, as well as open NYPD
+          complaint data related to disorderly conduct (as a substitute for 911 data). This dataset is very heavily skewed towards
+          311 noise complaints, as there were very few reports for the other datasets, but is included since 311/911 data on Noise,
+          Drinking, and Disorderly Conduct are some of the major indicators for presence presented by the NYPD. These 311 and
+          complaint data points were simply counted within each precinct polygon in QGIS. Stop, Question, and Frisk data was similarly
+          simply counted within each precinct. Poverty data by Community District was obtained through the NYC Mayor's Office for
+          Economic Opportunity website, and was precessed similarly to the population and demographic data to re-cast poverty values
+          by police precinct.
+        </p>
+        <p>
+          Each individual dataset was joined to a shapefile of NYPD precincts in QGIS.
+          The map was exported as a geoJSON and precinct boundaries were simplified with mapshaper.org for web use.
+        </p>
+
+      </div>
+    </div>
+
+    <!-- Create block for "Sources" information overlay -->
+    <div id="sourcesOver" class="overlay" onclick="sourcesOverOff()">(Click Anywhere to Return to Map)
+      <div class="docText">
+
+        <!-- Overlay Header -->
+        <h1>
+          Data Sources:
+        </h1>
+
+        <!-- Sources List -->
+        <ul>
+          <li>
+            Drug Use by Demographic Factors:
+            <a class="link" href="https://www.samhsa.gov/data/sites/default/files/NSDUH-DetTabs2014/NSDUH-DetTabs2014.pdf">
+              2014 National Survey on Drug Use and Health: Detailed Tables</a>
+          </li>
+          <li>
+            NYPD Drug Crime Data:
+            <a class="link" href="https://www1.nyc.gov/site/nypd/stats/crime-statistics/historical.page">Historical New York City Crime Data</a>
+          </li>
+          <li>
+            Demographic Data:
+            <a class="link" href="https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_16_5YR_B03002&prodType=table">
+              American FactFinder: 2014 5-year American Community Survey: Table B03002</a>
+          </li>
+          <li>
+            NYPD Precinct Boundaries:
+            <a class="link" href="https://data.cityofnewyork.us/Public-Safety/Police-Precincts/78dh-3ptz">NYC Open Data: Police Precincts</a>
+          </li>
+          <li>
+            NYC Census Tract Boundaries:
+            <a class="link" href="https://data.cityofnewyork.us/City-Government/2010-Census-Tracts/fxpq-c8ku">NYC Open Data: 2010 Census Tracts</a>
+          </li>
+          <li>
+            311 Noise, Drinking, and Disorderly Youth Data:
+            <a class="link" href="https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9">NYC Open Data: 311 Service Requests from 2010 to Present</a>
+          </li>
+          <li>
+            NYPD Complaint Data:
+            <a class="link" href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i">NYC Open Data: NYPD Complaint Data Historic</a>
+          </li>
+          <li>
+            Stop, Question, and Frisk:
+            <a class="link" href="https://www1.nyc.gov/site/nypd/stats/reports-analysis/stopfrisk.page">NYPD Stop, Question, and Frisk Data</a>
+          </li>
+          <li>
+            Poverty in NYC:
+            <a class="link" href="https://www1.nyc.gov/site/opportunity/poverty-in-nyc/data-tool.page">NYC Opportunity: Poverty Tool</a>
+          </li>
+          <li>
+            NYPD Report on Broken Windows Policies:
+            <a class="link" href="http://www.nyc.gov/html/nypd/downloads/pdf/analysis_and_planning/qol.pdf">Broken Windows and Quality of Life Policing in New York City</a>
+          </li>
+        </ul>
+
+        <!-- Overlay Header -->
+        <h2>
+          Site Author:
+        </h2>
+
+        <!-- Overlay Text -->
+          This webpage was created by Paul Jarymowycz as a class assignment for the SAVI-780 "Introduction to Interactive Web Mapping, Programming and Design", Fall 2018 course at the Pratt Institute.
+
+      </div>
+    </div>
+
+  </body>
+</html>
