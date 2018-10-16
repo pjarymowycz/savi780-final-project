@@ -1,10 +1,13 @@
 Racial Bias in NYC:
 Drug Enforcement
+
 Racial bias in policing is well documented in the US, but not always visible. This map compares modeled illicit drug-use rates in NYC with NYPD drug crime conviction data and shows how racial bias clouds the issue.
 
 Use the following map to look-up drug enforcement, drug use, and racial demographic data for NYPD precincts.
 
+
 About this map:
+
 Although Drug use is relatively equal across all racial demographics, arrests and convictions for drug related felonies and misdemeanors fall disproportionately on black and hispanic populations. The NYPD often claims that the racial disparity in policing, and Quality of Life (Broken Windows) policing in particular, is due to factors other than racial bias. However, these factors are often misleading and cannot fully explain patterns visible in the data, especially in the disparity between drug use and convictions.
 This map visually portrays drug enforcement by racial demographics in NYC. It was created from American Community Survey and historic NYPD crime data, as well as census tract and police precinct boundary data from NYC Open Data. All data analysis was performed in QGIS 3.0.2 and Microsoft Excel. Some minor cleanup was performed on the precinct boundary layer due to invalid geometries in the original data.
 
